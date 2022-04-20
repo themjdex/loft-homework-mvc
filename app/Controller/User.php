@@ -1,8 +1,14 @@
 <?php
 namespace App\Controller;
-class User
+use Base\AbstractController;
+
+class User extends AbstractController
 {
-    function indexAction()
+    function loginAction()
+    {
+        echo __METHOD__;
+    }
+    function registerAction()
     {
         echo __METHOD__;
     }
