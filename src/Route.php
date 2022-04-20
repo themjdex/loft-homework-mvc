@@ -1,7 +1,5 @@
 <?php
 namespace Base;
-use App\Controller\Blog;
-use App\Controller\User;
 
 class Route
 {
@@ -24,8 +22,6 @@ class Route
                 $this->actionName = strtolower($parts[2] ?? 'Index');
             }
             $this->processed = true;
-        } else {
-
         }
     }
     public function addRoute($path, $controllerName, $actionName)
