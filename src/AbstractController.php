@@ -1,5 +1,6 @@
 <?php
 namespace Base;
+use App\Controller\Blog;
 use App\Model\User;
 
 abstract class AbstractController
@@ -9,6 +10,7 @@ abstract class AbstractController
     /** @var User */
     protected $user;
 
+
     /**
      * @param View $view
      */
@@ -16,6 +18,7 @@ abstract class AbstractController
     {
         $this->view = $view;
     }
+
 
     protected function redirect(string $url)
     {

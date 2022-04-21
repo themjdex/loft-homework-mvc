@@ -49,6 +49,7 @@ class Application
     }
     private function addRoutes()
     {
+        $this->route->addRoute('/', User::class, 'login');
         /** @uses \App\Controller\User::loginAction() */
         $this->route->addRoute('/user/login', User::class, 'login');
         $this->route->addRoute('/user/go', User::class, 'login');
@@ -57,6 +58,7 @@ class Application
         /** @uses \App\Controller\Blog::indexAction() */
         $this->route->addRoute('/blog', Blog::class, 'index');
         $this->route->addRoute('/blog/index', Blog::class, 'index');
+        $this->route->addRoute('/blog/add', Blog::class, 'add');
     }
 
     private function initController()

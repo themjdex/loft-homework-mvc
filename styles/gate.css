@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 1200px;
+    background-color: #e5dfdf;
+}
+.header {
+    background: black;
+}
+h1 {
+    color: aliceblue;
+}
+.info-message {
+    border: 1px solid #b2a9a9;
+    border-radius: 10px;
+    background-color: cornsilk;
+}
+.error {
+    color: red;
+}
+.hello {
+    color: aliceblue;
+}
+
+.message {
+    border: 1px solid #b2a9a9;
+    border-radius: 5px;
+    background-color: cornsilk;
+}
+
+.post {
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    margin-bottom: 10px;
+}
+
+.user {
+    font-size: 10px;
+    color: #b2a9a9;
+}

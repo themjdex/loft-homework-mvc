@@ -7,11 +7,11 @@ class User extends AbstractController
 {
     public function loginAction()
     {
-        $name = trim($_POST['name']);
+        $email = trim($_POST['email']);
 
-        if ($name) {
+        if ($email) {
             $password = $_POST['password'];
-            $user = UserModel::getByName($name);
+            $user = UserModel::getByEmail($email);
             if (!$user) {
                 $this->view->assign('error', 'Неверный логин и/или пароль');
             }
@@ -33,11 +33,16 @@ class User extends AbstractController
     function registerAction()
     {
         $name = trim($_POST['name']);
-        $gender = UserModel::GENDER_MALE;
+        $email = trim($_POST['email']);
         $password = trim($_POST['password']);
+        $passwordRetry = trim($_POST['passwordRetry']);
         $success = true;
 
-        if (isset($_POST['name'])) {
+        if (isset($_POST['email'])) {
+            if (!$email) {
+                $this->view->assign('error', 'Почта должна быть указана');
+                $success = false;
+            }
             if (!$name) {
                 $this->view->assign('error', 'Имя не может быть пустым');
                 $success = false;
@@ -46,16 +51,30 @@ class User extends AbstractController
                 $this->view->assign('error', 'Пароль не может быть пустым');
                 $success = false;
             }
+            if (!$passwordRetry) {
+                $this->view->assign('error', 'Нужно ввести пароль повторно');
+                $success = false;
+            }
 
-            $user = UserModel::getByName($name);
+            if ($password != $passwordRetry) {
+                $this->view->assign('error', 'Введенные пароли не совпадают');
+                $success = false;
+            }
+
+            if (mb_strlen($password) <= 3) {
+                $this->view->assign('error', 'Пароль должен быть не менее 4 символов');
+                $success = false;
+            }
+
+            $user = UserModel::getByEmail($email);
             if ($user) {
-                $this->view->assign('error', 'Такой логин уже занят');
+                $this->view->assign('error', 'Такая почта уже занята');
                 $success = false;
             }
             if ($success) {
                 $user = (new UserModel())
                     ->setName($name)
-                    ->setGender($gender)
+                    ->setEmail($email)
                     ->setPassword(UserModel::getPasswordHash($password));
 
                 $user->save();
@@ -66,6 +85,9 @@ class User extends AbstractController
 
                 $this ->redirect('/blog/index');
             }
+        } else {
+            $this->view->assign('error', 'Вы не указали почту при регистрации или пытаетесь войти без авторизации');
+            die;
         }
 
         return $this->view->render('User/register.phtml', [
@@ -82,6 +104,6 @@ class User extends AbstractController
     public function logoutAction()
     {
         session_destroy();
-        $this ->redirect('/user/login');
+        $this->redirect('/user/login');
     }
 }

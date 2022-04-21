@@ -6,13 +6,10 @@ use Base\Db;
 
 class User extends AbstractModel
 {
-    const GENDER_MALE = 1;
-    const GENDER_FEMALE = 2;
-
     private $id;
     private $name;
     private $password;
-    private $gender;
+    private $email;
     private $createdAt;
 
     public function __construct($data = [])
@@ -21,7 +18,7 @@ class User extends AbstractModel
             $this->id = $data['id'];
             $this->name = $data['name'];
             $this->password = $data['password'];
-            $this->gender = $data['gender'];
+            $this->email = $data['email'];
             $this->createdAt = $data['created_at'];
         }
     }
@@ -73,26 +70,18 @@ class User extends AbstractModel
     /**
      * @return mixed
      */
-    public function getGender(): int
+    public function getEmail(): int
     {
-        return $this->gender;
+        return $this->email;
     }
 
     /**
-     * @param mixed $gender
+     * @param mixed $email
      */
-    public function setGender(int $gender): self
+    public function setEmail($email): self
     {
-        $this->gender = $gender;
+        $this->email = $email;
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGenderString()
-    {
-        return $this->gender == self::GENDER_MALE ? 'мужской' : 'женский';
     }
 
     /**
@@ -114,12 +103,11 @@ class User extends AbstractModel
     public function save()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO users (`name`, `password`, `gender`, `created_at`) VALUES (:name, :password, 
-:gender, CURDATE())";
+        $insert = "INSERT INTO users (`name`, `password`, `created_at`, `email`) VALUES (:name, :password, CURDATE(), :email)";
         $db->exec($insert, __METHOD__, [
             ':name' => $this->name,
             ':password' => $this->password,
-            ':gender' => $this->getGender()
+            ':email' => $this->email
         ]);
 
         $id = $db->lastInsertId();
@@ -140,11 +128,11 @@ class User extends AbstractModel
         return new self($data);
     }
 
-    public static function getByName(string $name): ?self
+    public static function getByEmail(string $email): ?self
     {
         $db = Db::getInstance();
-        $select = "SELECT * FROM users WHERE `name` = :name";
-        $data = $db->fetchOne($select, __METHOD__, [':name' => $name]);
+        $select = "SELECT * FROM users WHERE `email` = :email";
+        $data = $db->fetchOne($select, __METHOD__, [':email' => $email]);
 
         if (!$data) {
             return null;
