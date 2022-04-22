@@ -39,20 +39,19 @@
             <input type="submit" value="Показать только мои сообщения" class="btn btn-secondary">
         </form>
     </div>
-
     <?php foreach ($posts as $post): ?>
         <div class="post">
             <span class="user">Сообщение <?=$post['id']?> от пользователя с ID:
                 <b><?=$post['user_id']?></b> создано <?=$post['created_date']; ?>
             </span>
             <div class="message"><?=$post['message']; ?></div>
-            <? if (file_exists('../../images/' . $post['id'] . '.png')):?>
-                <img src="../../../src/Image.php/?id=<?=$post['id'];?>"></img>
+            <? if (file_exists('./images/' . $post['id'] . '.png')):?>
+                <img src="../../../src/image.php/?id=<?=$post['id'];?>">
             <? endif;?>
             <? if ($role == ADMIN_ROLE): ?>
-                <form action="blog/delete" class="col-3" method="post">
+                <form action="blog/delete" method="post">
                     <input type="hidden" name="postId" value="<?php echo $post['id']?>">
-                    <input type="submit" value="Удалить" class="btn btn-danger">
+                    <input type="submit" value="Удалить" class="btn btn-danger del-btn">
                 </form>
             <? endif;?>
 

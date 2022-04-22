@@ -39,10 +39,13 @@ class Blog extends AbstractController
             $this->messages = $message->showLastMessages();
 
             if (!empty($_FILES['userfile']['tmp_name'])) {
-                $postId = $message->getIdSavedImage();
-                $postId = $postId[0]['id'];
+                $postId = $message->getIdSavedImage()['id'];
+                $id = $postId['id'];
                 $fileContent = file_get_contents($_FILES['userfile']['tmp_name']);
-                file_put_contents('../../images/' . $postId . '.png', $fileContent); // /images/26.png
+                file_put_contents('./images/' . $postId . '.png', $fileContent); // /images/25.png
+            } else {
+                $this->view->assign('error', 'Нет сообщения');
+                exit();
             }
 
             $this->view->render('Blog/index.phtml', [

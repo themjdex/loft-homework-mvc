@@ -33,8 +33,7 @@ class Message extends AbstractModel
     public function getIdSavedImage()
     {
         $db = Db::getInstance();
-        $id = $db->lastInsertId();
-        $sql = "SELECT id FROM posts WHERE id = $id";
+        $sql = "SELECT `id` FROM posts ORDER BY id desc LIMIT 1";
         return $db->fetchOne($sql, __METHOD__, []);
     }
     public function getLastMessagesById($userId)

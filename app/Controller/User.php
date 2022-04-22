@@ -83,7 +83,7 @@ class User extends AbstractController
 
                 $this->setUser($user);
 
-                $this ->redirect('/blog/index');
+                $this ->redirect('/blog');
             }
         } else {
             $this->view->assign('error', 'Вы не указали почту при регистрации или пытаетесь войти без авторизации');
