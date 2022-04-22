@@ -57,8 +57,8 @@ class Application
         $this->route->addRoute('/user/register', User::class, 'register');
         /** @uses \App\Controller\Blog::indexAction() */
         $this->route->addRoute('/blog', Blog::class, 'index');
-        $this->route->addRoute('/blog/index', Blog::class, 'index');
-        $this->route->addRoute('/blog/add', Blog::class, 'add');
+//        $this->route->addRoute('/blog/index', Blog::class, 'index');
+//        $this->route->addRoute('/blog/add', Blog::class, 'add');
     }
 
     private function initController()

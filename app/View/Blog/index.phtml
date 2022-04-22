@@ -18,7 +18,7 @@
         </form>
     </div>
     <div class="row align-items-start justify-content-center">
-        <form enctype="multipart/form-data" action="blog/add" method="post">
+        <form enctype="multipart/form-data" action="blog/index" method="post">
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Сделать запись в блог</label>
                 <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -34,18 +34,28 @@
         </form>
     </div>
 
-    <div>
-
+    <div class="row justify-content-end align-items-center">
+        <form action="/blog/mypost" class="col-3">
+            <input type="submit" value="Показать только мои сообщения" class="btn btn-secondary">
+        </form>
     </div>
+
     <?php foreach ($posts as $post): ?>
         <div class="post">
-            <span class="user">Сообщение от пользователя с ID:
+            <span class="user">Сообщение <?=$post['id']?> от пользователя с ID:
                 <b><?=$post['user_id']?></b> создано <?=$post['created_date']; ?>
             </span>
             <div class="message"><?=$post['message']; ?></div>
-            <? if (file_exists('./images/' . $post['id'] . '.png')):?>
-                <img src="image.php/?id=<?=$post['id'];?>"></img>
+            <? if (file_exists('../../images/' . $post['id'] . '.png')):?>
+                <img src="../../../src/Image.php/?id=<?=$post['id'];?>"></img>
             <? endif;?>
+            <? if ($role == ADMIN_ROLE): ?>
+                <form action="blog/delete" class="col-3" method="post">
+                    <input type="hidden" name="postId" value="<?php echo $post['id']?>">
+                    <input type="submit" value="Удалить" class="btn btn-danger">
+                </form>
+            <? endif;?>
+
         </div>
     <? endforeach; ?>
 </div>

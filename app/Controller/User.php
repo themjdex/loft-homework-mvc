@@ -21,7 +21,7 @@ class User extends AbstractController
                     $this->view->assign('error', 'Неверный логин и/или пароль');
                 } else {
                     $_SESSION['id'] = $user->getId();
-                    $this->redirect('/blog/index');
+                    $this->redirect('/blog');
                 }
             }
         }
