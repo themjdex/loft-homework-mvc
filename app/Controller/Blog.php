@@ -48,7 +48,7 @@ class Blog extends AbstractController
                 exit();
             }
 
-            $this->view->render('Blog/index.phtml', [
+            return $this->view->render('Blog/index.phtml', [
                 'posts' => $this->messages, 'role' => $this->userRole
             ]);
 
