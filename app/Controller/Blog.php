@@ -4,6 +4,7 @@ namespace App\Controller;
 use Base\AbstractController;
 use App\Model\Message;
 use Base\Db;
+use Intervention\Image\Image;
 
 class Blog extends AbstractController
 {
@@ -42,7 +43,14 @@ class Blog extends AbstractController
                 $postId = $message->getIdSavedImage()['id'];
                 $id = $postId['id'];
                 $fileContent = file_get_contents($_FILES['userfile']['tmp_name']);
-                file_put_contents('./images/' . $postId . '.png', $fileContent); // /images/25.png
+                file_put_contents('./images/' . $postId . '.png', $fileContent);
+                $source = PROJECT_ROOT_DIR . '/images/' . $postId . '.png';
+                $image = (new \Intervention\Image\Image)->make($source)->resize(200, null, function ($image) {
+                    $image->aspectRatio();
+                });
+                self::watermark($image);
+
+
             } else {
                 $this->view->assign('error', 'Нет сообщения');
                 exit();
@@ -55,6 +63,19 @@ class Blog extends AbstractController
         }
     }
 
+    public static function watermark(Image $image)
+    {
+        $image->text(
+            "Блог\nобо\nвсем",
+            50,
+            15,
+            function ($font) {
+                $font->file(PROJECT_ROOT_DIR . '/fonts/arial.ttf')->size('24');
+                $font->color(array(255, 20, 10, 0.5));
+                $font->align('left');
+                $font->valign('top');
+            });
+    }
     public function mypostAction()
     {
         $userId = $_SESSION['id'];

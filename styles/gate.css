@@ -45,3 +45,11 @@ h1 {
 .del-btn {
     margin: 5px;
 }
+
+.pass {
+    width: 250px;
+    margin-bottom: 20px;
+}
+.btn {
+    margin-bottom: 20px;
+}

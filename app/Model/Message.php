@@ -2,6 +2,7 @@
 namespace App\Model;
 use Base\AbstractModel;
 use Base\Db;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class Message extends AbstractModel
 {

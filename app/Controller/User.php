@@ -95,6 +95,11 @@ class User extends AbstractController
         ]);
     }
 
+    public function forgotPasswordAction()
+    {
+        echo '123';
+    }
+
     public function profileAction()
     {
         return $this->view->render('User/profile.phtml', [

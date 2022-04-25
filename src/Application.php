@@ -2,6 +2,7 @@
 namespace Base;
 
 use App\Controller\Blog;
+use App\Controller\Email;
 use App\Controller\User;
 
 class Application
@@ -57,8 +58,9 @@ class Application
         $this->route->addRoute('/user/register', User::class, 'register');
         /** @uses \App\Controller\Blog::indexAction() */
         $this->route->addRoute('/blog', Blog::class, 'index');
-//        $this->route->addRoute('/blog/index', Blog::class, 'index');
-//        $this->route->addRoute('/blog/add', Blog::class, 'add');
+        $this->route->addRoute('/user/newPassword', Email::class, 'newPassword');
+        $this->route->addRoute('/user/email/send', Email::class, 'send');
+
     }
 
     private function initController()
