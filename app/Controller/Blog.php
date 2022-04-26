@@ -3,8 +3,9 @@ namespace App\Controller;
 
 use Base\AbstractController;
 use App\Model\Message;
-use Base\Db;
+use Intervention\Image\ImageManager;
 use Intervention\Image\Image;
+
 
 class Blog extends AbstractController
 {
@@ -41,15 +42,9 @@ class Blog extends AbstractController
 
             if (!empty($_FILES['userfile']['tmp_name'])) {
                 $postId = $message->getIdSavedImage()['id'];
-                $id = $postId['id'];
                 $fileContent = file_get_contents($_FILES['userfile']['tmp_name']);
                 file_put_contents('./images/' . $postId . '.png', $fileContent);
-                $source = PROJECT_ROOT_DIR . '/images/' . $postId . '.png';
-                $image = (new \Intervention\Image\Image)->make($source)->resize(200, null, function ($image) {
-                    $image->aspectRatio();
-                });
-                self::watermark($image);
-
+                $this->resize($postId);
 
             } else {
                 $this->view->assign('error', 'Нет сообщения');
@@ -63,15 +58,25 @@ class Blog extends AbstractController
         }
     }
 
+    public function resize($postId)
+    {
+        $_imagePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'images/';
+        $data = file_get_contents($_imagePath . $postId . '.png');
+        $image = (new \Intervention\Image\ImageManager)->make($data)->resize(200, null, function ($image) {
+            $image->aspectRatio();
+        });
+        self::watermark($image);
+        $image->save('images/' . $postId . '.png');
+    }
     public static function watermark(Image $image)
     {
         $image->text(
             "Блог\nобо\nвсем",
-            50,
+            20,
             15,
             function ($font) {
                 $font->file(PROJECT_ROOT_DIR . '/fonts/arial.ttf')->size('24');
-                $font->color(array(255, 20, 10, 0.5));
+                $font->color(array(0, 0, 0, 0.5));
                 $font->align('left');
                 $font->valign('top');
             });
