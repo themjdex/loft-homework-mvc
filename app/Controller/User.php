@@ -2,9 +2,15 @@
 namespace App\Controller;
 use Base\AbstractController;
 use App\Model\User as UserModel;
+use Base\View as View;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class User extends AbstractController
 {
+    private $_twig;
+    private $data;
+
     public function loginAction()
     {
         $email = trim($_POST['email']);
@@ -97,15 +103,31 @@ class User extends AbstractController
 
     public function forgotPasswordAction()
     {
-        echo '123';
+
+    }
+
+    /**
+     * @return \Twig\Environment
+     */
+    public function getTwig()
+    {
+        if (!$this->_twig) {
+            $path = './app/View/User' ;
+            $loader = new FilesystemLoader($path);
+            $this->_twig = new Environment($loader, array('cache' => $path . '/compil'));
+        }
+        return $this->_twig;
     }
 
     public function profileAction()
     {
-        return $this->view->render('User/profile.phtml', [
-            'user' => UserModel::getById((int) $_GET['id'])
-        ]);
+        $twig = $this->getTwig();
+        $this->data = UserModel::getById((int) $_SESSION['id']);
+        ob_start();
+        echo $twig->render('profile.twig', ['view' => $this->data]);
+        return ob_end_flush();
     }
+
     public function logoutAction()
     {
         session_destroy();

@@ -11,6 +11,7 @@ class User extends AbstractModel
     private $password;
     private $email;
     private $createdAt;
+    private $userRole;
 
     public function __construct($data = [])
     {
@@ -19,7 +20,8 @@ class User extends AbstractModel
             $this->name = $data['name'];
             $this->password = $data['password'];
             $this->email = $data['email'];
-            $this->createdAt = $data['created_at'];
+            $this->createdAt = $data['createdAt'];
+            $this->userRole = $data['userRole'];
         }
     }
     public function getName(): string
@@ -70,7 +72,7 @@ class User extends AbstractModel
     /**
      * @return mixed
      */
-    public function getEmail(): int
+    public function getEmail()
     {
         return $this->email;
     }
@@ -103,7 +105,7 @@ class User extends AbstractModel
     public function save()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO users (`name`, `password`, `created_at`, `email`) VALUES (:name, :password, CURDATE(), :email)";
+        $insert = "INSERT INTO users (`name`, `password`, `createdAt`, `email`) VALUES (:name, :password, CURDATE(), :email)";
         $db->exec($insert, __METHOD__, [
             ':name' => $this->name,
             ':password' => $this->password,

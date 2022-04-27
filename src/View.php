@@ -28,4 +28,6 @@ class View
     {
         return $this->data[$varName] ?? null;
     }
+
+
 }

@@ -56,3 +56,27 @@ h1 {
 .btn-danger {
     margin-top: 10px;
 }
+
+.cabinet {
+    text-decoration: none;
+    color: aliceblue;
+    border: 5px solid transparent;
+}
+.cabinet:hover {
+    color: aliceblue;
+    border: 5px solid orangered;
+    background: orangered;
+    border-radius: 5px;
+}
+
+.blog {
+    text-decoration: none;
+    color: aliceblue;
+    border: 5px solid transparent;
+}
+.blog:hover {
+    color: aliceblue;
+    border: 5px solid orangered;
+    background: orangered;
+    border-radius: 5px;
+}

@@ -53,7 +53,7 @@ class Message extends AbstractModel
         $db = Db::getInstance();
         $sql = "SELECT * FROM users WHERE id = :id";
         $result = $db->fetchOne($sql, __METHOD__, [':id' => $userId]);
-        if ($result['user_role'] == 1) {
+        if ($result['userRole'] == 1) {
             return USER_ROLE;
         } else {
             return ADMIN_ROLE;
